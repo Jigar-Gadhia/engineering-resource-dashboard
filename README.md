@@ -148,3 +148,46 @@ MIT License
 ## 🙌 Contributions
 
 Open to feedback, pull requests, and feature ideas!
+---
+
+### 🎨 Shadcn UI Setup
+
+Shadcn UI is used for consistent and modern UI components. To set it up:
+
+1. Install Shadcn CLI and initialize:
+```bash
+npx shadcn-ui@latest init
+```
+2. Select your framework options (e.g., React, Tailwind CSS, TypeScript, App Router).
+3. Add components using the CLI:
+```bash
+npx shadcn-ui@latest add button
+```
+4. You can customize themes, colors, and fonts via `tailwind.config.js` and `components.json`.
+
+📦 Components are stored under `src/components/ui/`.
+
+Documentation: [https://ui.shadcn.com](https://ui.shadcn.com)
+---
+
+### 🧩 Recommended Shadcn UI Components Installation
+
+Install commonly used components with the Shadcn CLI:
+
+```bash
+npx shadcn-ui@latest add button
+npx shadcn-ui@latest add input
+npx shadcn-ui@latest add dialog
+npx shadcn-ui@latest add card
+npx shadcn-ui@latest add dropdown-menu
+npx shadcn-ui@latest add tooltip
+npx shadcn-ui@latest add table
+npx shadcn-ui@latest add calendar
+npx shadcn-ui@latest add badge
+npx shadcn-ui@latest add select
+npx shadcn-ui@latest add toast
+```
+
+Each component will be added to `src/components/ui/` and is styled with Tailwind CSS.
+
+For more components and customization, refer to: [https://ui.shadcn.com/docs/components](https://ui.shadcn.com/docs/components)
