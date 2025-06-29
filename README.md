@@ -106,7 +106,7 @@ A modern React + TypeScript frontend dashboard for managing engineers, projects,
 cd server
 cp .env.example .env       # Configure DB and JWT values
 npm install                # or bun install
-npm run dev                # or bun dev
+npm run src/index.ts       # or bun run src/index.ts
 ```
 
 **Sample `.env`**
