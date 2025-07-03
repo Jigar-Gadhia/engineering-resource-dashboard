@@ -105,8 +105,8 @@ A modern React + TypeScript frontend dashboard for managing engineers, projects,
 ```bash
 cd server
 cp .env.example .env       # Configure DB and JWT values
-npm install                # or bun install
-npm run src/index.ts       # or bun run src/index.ts
+bun install                # or npm install
+bun run src/index.ts       # or npm run src/index.ts
 ```
 
 **Sample `.env`**
@@ -125,7 +125,7 @@ The backend will run at: [http://localhost:3001](http://localhost:3001)
 ```bash
 cd ..
 bun install               # Or: npm install
-bun dev                  # Or: npm run dev
+bun run dev                  # Or: npm run dev
 ```
 
 The app will be live at: [http://localhost:5173](http://localhost:5173)
