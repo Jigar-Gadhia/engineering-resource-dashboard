@@ -48,7 +48,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const fetchProfile = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/users/profile');
+      const response = await axios.get('http://localhost:3001/api/users/profile');
       setUser(response.data);
     } catch (error) {
       localStorage.removeItem('token');
@@ -67,7 +67,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     maxCapacity: string,
     department: string
   ) => {
-    const response = await axios.post('http://localhost:3000/api/auth/signup', {
+    const response = await axios.post('http://localhost:3001/api/auth/signup', {
       email,
       password,
       role: role?.toLowerCase(),
@@ -75,7 +75,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       seniority: seniority?.toLowerCase(),
       maxCapacity,
       department
-    });
+    }).catch((e) => console.log('error: ', e));
 
     const { token, user: userData } = response.data;
 
@@ -88,7 +88,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (email: string, password: string) => {
     const response = await axios.request({
       method: 'post',
-      url: 'http://localhost:3000/api/auth/login',
+      url: 'http://localhost:3001/api/auth/login',
       data: JSON.stringify({
         email,
         password

@@ -5,12 +5,10 @@ import {
   FolderKanban,
   ClipboardList,
   Activity,
-  TrendingUp,
   Briefcase,
   Clock,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { Progress } from '@/components/ui/progress';
 
 interface DashboardStats {
   totalEngineers: number;
@@ -35,7 +33,7 @@ const Dashboard: React.FC = () => {
 
   const fetchDashboardData = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/analytics/dashboard');
+      const response = await axios.get('http://localhost:3001/api/analytics/dashboard');
       setStats(response.data);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);

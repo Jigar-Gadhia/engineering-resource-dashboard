@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { useAuth } from '../context/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { Button } from '../components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog';
+import { Input } from '../components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { ScrollArea } from '../components/ui/scroll-area';
 import { ClipboardList, User, FolderKanban, Calendar, Clock, Plus } from 'lucide-react';
 
 interface Assignment {
@@ -56,9 +56,9 @@ const Assignments: React.FC = () => {
   const fetchData = async () => {
     try {
       const [assignmentsRes, engineersRes, projectsRes] = await Promise.all([
-        axios.get('http://localhost:3000/api/assignments'),
-        axios.get('http://localhost:3000/api/engineers'),
-        axios.get('http://localhost:3000/api/projects'),
+        axios.get('http://localhost:3001/api/assignments'),
+        axios.get('http://localhost:3001/api/engineers'),
+        axios.get('http://localhost:3001/api/projects'),
       ]);
       setAssignments(assignmentsRes.data);
       setEngineers(engineersRes.data);

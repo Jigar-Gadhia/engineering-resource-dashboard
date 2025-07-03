@@ -7,9 +7,9 @@ import {
   Clock,
   Award,
 } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Progress } from "@/components/ui/progress";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../components/ui/card';
+import { Input } from '../components/ui/input';
+import { Progress } from "../components/ui/progress";
 
 interface Engineer {
   id: string;
@@ -33,7 +33,7 @@ const Engineers: React.FC = () => {
 
   const fetchEngineers = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/engineers');
+      const response = await axios.get('http://localhost:3001/api/engineers');
       setEngineers(response.data);
     } catch (error) {
       console.error('Error fetching engineers:', error);
@@ -43,9 +43,9 @@ const Engineers: React.FC = () => {
   };
 
   const filteredEngineers = engineers.filter(engineer =>
-    engineer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    engineer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    engineer.skills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase()))
+    engineer.name?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+    engineer.email?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+    engineer.skills.some(skill => skill?.toLowerCase().includes(searchTerm?.toLowerCase()))
   );
 
   const getExperienceBadgeClass = (level: string) => {

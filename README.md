@@ -113,10 +113,10 @@ npm run src/index.ts       # or bun run src/index.ts
 ```
 MONGO_URI=mongodb://localhost:27017/engineering-db
 JWT_SECRET=your-secret-key
-PORT=3000
+PORT=3001
 ```
 
-The backend will run at: [http://localhost:3000](http://localhost:3000)
+The backend will run at: [http://localhost:3001](http://localhost:3001)
 
 ---
 
@@ -134,7 +134,7 @@ The app will be live at: [http://localhost:5173](http://localhost:5173)
 
 ## 🔗 API Integration
 
-- Axios base URL should point to: `http://localhost:3000/api`
+- Axios base URL should point to: `http://localhost:3001/api`
 - Auth, engineers, projects, and assignments APIs available via REST
 
 ---

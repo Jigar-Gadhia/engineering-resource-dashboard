@@ -8,7 +8,7 @@ import {
   CardTitle,
   CardDescription,
   CardContent,
-} from '@/components/ui/card';
+} from '../components/ui/card';
 import {
   Dialog,
   DialogTrigger,
@@ -16,12 +16,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
+} from '../components/ui/dialog';
+import { Input } from '../components/ui/input';
+import { Textarea } from '../components/ui/textarea';
+import { Button } from '../components/ui/button';
+import { Badge } from '../components/ui/badge';
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '../components/ui/select';
 
 interface Project {
   id: string;
@@ -56,7 +56,7 @@ const Projects: React.FC = () => {
 
   const fetchProjects = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/api/projects');
+      const res = await axios.get('http://localhost:3001/api/projects');
       setProjects(res.data);
     } catch (err) {
       console.error('Fetch error:', err);
@@ -85,7 +85,7 @@ const Projects: React.FC = () => {
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3000/api/projects', newProject);
+      await axios.post('http://localhost:3001/api/projects', newProject);
       setShowModal(false);
       fetchProjects();
       setNewProject({

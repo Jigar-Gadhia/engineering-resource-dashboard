@@ -14,7 +14,7 @@ import {
   Sheet,
   SheetContent,
   SheetTrigger,
-} from '@/components/ui/sheet';
+} from '../components/ui/sheet';
 
 import {
   AlertDialog,
@@ -26,9 +26,9 @@ import {
   AlertDialogDescription,
   AlertDialogCancel,
   AlertDialogAction,
-} from '@/components/ui/alert-dialog';
+} from '../components/ui/alert-dialog';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '../components/ui/button';
 
 interface LayoutProps {
   children: React.ReactNode;
