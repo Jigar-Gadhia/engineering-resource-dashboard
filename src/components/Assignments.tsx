@@ -56,9 +56,9 @@ const Assignments: React.FC = () => {
   const fetchData = async () => {
     try {
       const [assignmentsRes, engineersRes, projectsRes] = await Promise.all([
-        axios.get('http://localhost:3001/api/assignments'),
-        axios.get('http://localhost:3001/api/engineers'),
-        axios.get('http://localhost:3001/api/projects'),
+        axios.get('https://engineering-resource-dashboard.onrender.com/api/assignments'),
+        axios.get('https://engineering-resource-dashboard.onrender.com/api/engineers'),
+        axios.get('https://engineering-resource-dashboard.onrender.com/api/projects'),
       ]);
       setAssignments(assignmentsRes.data);
       setEngineers(engineersRes.data);
@@ -73,7 +73,7 @@ const Assignments: React.FC = () => {
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3001/api/assignments', newAssignment);
+      await axios.post('https://engineering-resource-dashboard.onrender.com/api/assignments', newAssignment);
       fetchData();
       setShowDialog(false);
       setNewAssignment({ project_id: '', engineer_id: '', allocated_hours: 0, start_date: '', end_date: '' });
