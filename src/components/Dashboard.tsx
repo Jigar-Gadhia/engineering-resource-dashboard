@@ -33,7 +33,7 @@ const Dashboard: React.FC = () => {
 
   const fetchDashboardData = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/api/analytics/dashboard');
+      const response = await axios.get('https://engineering-resource-dashboard.onrender.com/api/analytics/dashboard');
       setStats(response.data);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
