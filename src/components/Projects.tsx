@@ -56,7 +56,7 @@ const Projects: React.FC = () => {
 
   const fetchProjects = async () => {
     try {
-      const res = await axios.get('http://localhost:3001/api/projects');
+      const res = await axios.get('https://engineering-resource-dashboard.onrender.com/api/projects');
       setProjects(res.data);
     } catch (err) {
       console.error('Fetch error:', err);
@@ -85,7 +85,7 @@ const Projects: React.FC = () => {
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3001/api/projects', newProject);
+      await axios.post('https://engineering-resource-dashboard.onrender.com/api/projects', newProject);
       setShowModal(false);
       fetchProjects();
       setNewProject({
