@@ -1,14 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
-import { FolderKanban, Calendar, Clock, AlertTriangle, Plus, X, Loader2 } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useAuth } from "../context/AuthContext";
+import {
+  FolderKanban,
+  Calendar,
+  Clock,
+  AlertTriangle,
+  Plus,
+  X,
+  Loader2,
+} from "lucide-react";
 import {
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-} from '../components/ui/card';
+} from "../components/ui/card";
 import {
   Dialog,
   DialogTrigger,
@@ -16,12 +24,19 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from '../components/ui/dialog';
-import { Input } from '../components/ui/input';
-import { Textarea } from '../components/ui/textarea';
-import { Button } from '../components/ui/button';
-import { Badge } from '../components/ui/badge';
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '../components/ui/select';
+} from "../components/ui/dialog";
+import { Input } from "../components/ui/input";
+import { Textarea } from "../components/ui/textarea";
+import { Button } from "../components/ui/button";
+import { Badge } from "../components/ui/badge";
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "../components/ui/select";
+import { apiUrl } from "../lib/utils";
 
 interface Project {
   id: string;
@@ -41,14 +56,14 @@ const Projects: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [newProject, setNewProject] = useState({
-    name: '',
-    description: '',
+    name: "",
+    description: "",
     required_skills: [] as string[],
     estimated_hours: 0,
-    priority: 'Medium',
-    deadline: '',
+    priority: "Medium",
+    deadline: "",
   });
-  const [skillInput, setSkillInput] = useState('');
+  const [skillInput, setSkillInput] = useState("");
 
   useEffect(() => {
     fetchProjects();
@@ -56,22 +71,25 @@ const Projects: React.FC = () => {
 
   const fetchProjects = async () => {
     try {
-      const res = await axios.get('https://engineering-resource-dashboard.onrender.com/api/projects');
+      const res = await axios.get(`${apiUrl}/projects`);
       setProjects(res.data);
     } catch (err) {
-      console.error('Fetch error:', err);
+      console.error("Fetch error:", err);
     } finally {
       setLoading(false);
     }
   };
 
   const addSkill = () => {
-    if (skillInput.trim() && !newProject.required_skills.includes(skillInput.trim())) {
+    if (
+      skillInput.trim() &&
+      !newProject.required_skills.includes(skillInput.trim())
+    ) {
       setNewProject({
         ...newProject,
         required_skills: [...newProject.required_skills, skillInput.trim()],
       });
-      setSkillInput('');
+      setSkillInput("");
     }
   };
 
@@ -85,38 +103,43 @@ const Projects: React.FC = () => {
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post('https://engineering-resource-dashboard.onrender.com/api/projects', newProject);
+      await axios.post(`${apiUrl}/api/projects`, newProject);
       setShowModal(false);
       fetchProjects();
       setNewProject({
-        name: '',
-        description: '',
+        name: "",
+        description: "",
         required_skills: [],
         estimated_hours: 0,
-        priority: 'Medium',
-        deadline: '',
+        priority: "Medium",
+        deadline: "",
       });
     } catch (err) {
-      console.error('Create error:', err);
+      console.error("Create error:", err);
     }
   };
 
-  const getBadge = (value: string, type: 'priority' | 'status') => {
-    const map = {
+  const getBadge = (value: string, type: "priority" | "status") => {
+    const map: Record<"priority" | "status", Record<string, string>> = {
       priority: {
-        Low: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-        Medium: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
-        High: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300',
-        Critical: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
+        Low: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
+        Medium:
+          "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
+        High: "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300",
+        Critical: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
       },
       status: {
-        Planning: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
-        Active: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-        Completed: 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300',
-        'On Hold': 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300',
+        Planning:
+          "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300",
+        Active:
+          "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
+        Completed:
+          "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300",
+        "On Hold":
+          "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300",
       },
     };
-    return map[type][value] || 'bg-muted text-muted-foreground';
+    return map[type][value] || "bg-muted text-muted-foreground";
   };
 
   if (loading) {
@@ -132,9 +155,11 @@ const Projects: React.FC = () => {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Projects</h1>
-          <p className="text-muted-foreground mt-1">Manage engineering projects and skills</p>
+          <p className="text-muted-foreground mt-1">
+            Manage engineering projects and skills
+          </p>
         </div>
-        {user?.role?.toLowerCase() === 'manager' && (
+        {user?.role?.toLowerCase() === "manager" && (
           <Dialog open={showModal} onOpenChange={setShowModal}>
             <DialogTrigger asChild>
               <Button>
@@ -149,13 +174,20 @@ const Projects: React.FC = () => {
                 <Input
                   placeholder="Project Name"
                   value={newProject.name}
-                  onChange={(e) => setNewProject({ ...newProject, name: e.target.value })}
+                  onChange={(e) =>
+                    setNewProject({ ...newProject, name: e.target.value })
+                  }
                   required
                 />
                 <Textarea
                   placeholder="Description"
                   value={newProject.description}
-                  onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
+                  onChange={(e) =>
+                    setNewProject({
+                      ...newProject,
+                      description: e.target.value,
+                    })
+                  }
                 />
                 <div>
                   <div className="flex space-x-2 mb-2">
@@ -163,15 +195,26 @@ const Projects: React.FC = () => {
                       placeholder="Add skill"
                       value={skillInput}
                       onChange={(e) => setSkillInput(e.target.value)}
-                      onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addSkill())}
+                      onKeyDown={(e) =>
+                        e.key === "Enter" && (e.preventDefault(), addSkill())
+                      }
                     />
-                    <Button type="button" onClick={addSkill}>Add</Button>
+                    <Button type="button" onClick={addSkill}>
+                      Add
+                    </Button>
                   </div>
                   <div className="flex flex-wrap gap-1">
                     {newProject.required_skills.map((skill, i) => (
-                      <Badge key={i} variant="outline" className="flex items-center">
+                      <Badge
+                        key={i}
+                        variant="outline"
+                        className="flex items-center"
+                      >
                         {skill}
-                        <X className="w-3 h-3 ml-1 cursor-pointer" onClick={() => removeSkill(skill)} />
+                        <X
+                          className="w-3 h-3 ml-1 cursor-pointer"
+                          onClick={() => removeSkill(skill)}
+                        />
                       </Badge>
                     ))}
                   </div>
@@ -181,22 +224,28 @@ const Projects: React.FC = () => {
                     type="number"
                     placeholder="Estimated Hours"
                     value={newProject.estimated_hours}
-                    onChange={(e) => setNewProject({
-                      ...newProject,
-                      estimated_hours: parseInt(e.target.value) || 0,
-                    })}
+                    onChange={(e) =>
+                      setNewProject({
+                        ...newProject,
+                        estimated_hours: parseInt(e.target.value) || 0,
+                      })
+                    }
                     required
                   />
                   <Select
                     value={newProject.priority}
-                    onValueChange={(val) => setNewProject({ ...newProject, priority: val })}
+                    onValueChange={(val) =>
+                      setNewProject({ ...newProject, priority: val })
+                    }
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Priority" />
                     </SelectTrigger>
                     <SelectContent>
-                      {['Low', 'Medium', 'High', 'Critical'].map((p) => (
-                        <SelectItem key={p} value={p}>{p}</SelectItem>
+                      {["Low", "Medium", "High", "Critical"].map((p) => (
+                        <SelectItem key={p} value={p}>
+                          {p}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -204,7 +253,9 @@ const Projects: React.FC = () => {
                 <Input
                   type="date"
                   value={newProject.deadline}
-                  onChange={(e) => setNewProject({ ...newProject, deadline: e.target.value })}
+                  onChange={(e) =>
+                    setNewProject({ ...newProject, deadline: e.target.value })
+                  }
                 />
                 <DialogFooter>
                   <Button type="submit">Create</Button>
@@ -227,12 +278,28 @@ const Projects: React.FC = () => {
                   </div>
                   <div>
                     <CardTitle>{project.name}</CardTitle>
-                    <CardDescription>Manager: {project.manager_name}</CardDescription>
+                    <CardDescription>
+                      Manager: {project.manager_name}
+                    </CardDescription>
                   </div>
                 </div>
                 <div className="flex flex-col items-end space-y-1">
-                  <span className={`text-xs px-2 py-1 rounded-full ${getBadge(project.priority, 'priority')}`}>{project.priority}</span>
-                  <span className={`text-xs px-2 py-1 rounded-full ${getBadge(project.status, 'status')}`}>{project.status}</span>
+                  <span
+                    className={`text-xs px-2 py-1 rounded-full ${getBadge(
+                      project.priority,
+                      "priority"
+                    )}`}
+                  >
+                    {project.priority}
+                  </span>
+                  <span
+                    className={`text-xs px-2 py-1 rounded-full ${getBadge(
+                      project.status,
+                      "status"
+                    )}`}
+                  >
+                    {project.status}
+                  </span>
                 </div>
               </div>
             </CardHeader>
@@ -254,7 +321,9 @@ const Projects: React.FC = () => {
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {project.required_skills.map((skill, idx) => (
-                    <Badge variant="secondary" key={idx}>{skill}</Badge>
+                    <Badge variant="secondary" key={idx}>
+                      {skill}
+                    </Badge>
                   ))}
                 </div>
               </div>

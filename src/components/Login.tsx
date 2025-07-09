@@ -46,7 +46,7 @@ const Login: React.FC = () => {
           password,
           role,
           skills,
-          seniority,
+          seniority || "",
           maxCapacity,
           department
         );

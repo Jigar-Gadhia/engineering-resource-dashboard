@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { User, Mail, Code, Clock, Award, Loader2 } from "lucide-react";
 import {
-  User,
-  Mail,
-  Code,
-  Clock,
-  Award,
-} from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../components/ui/card';
-import { Input } from '../components/ui/input';
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "../components/ui/card";
+import { Input } from "../components/ui/input";
 import { Progress } from "../components/ui/progress";
+import { apiUrl } from "../lib/utils";
 
 interface Engineer {
   id: string;
@@ -25,7 +26,7 @@ interface Engineer {
 const Engineers: React.FC = () => {
   const [engineers, setEngineers] = useState<Engineer[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetchEngineers();
@@ -33,40 +34,43 @@ const Engineers: React.FC = () => {
 
   const fetchEngineers = async () => {
     try {
-      const response = await axios.get('https://engineering-resource-dashboard.onrender.com/api/engineers');
+      const response = await axios.get(`${apiUrl}/engineers`);
       setEngineers(response.data);
     } catch (error) {
-      console.error('Error fetching engineers:', error);
+      console.error("Error fetching engineers:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  const filteredEngineers = engineers.filter(engineer =>
-    engineer.name?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
-    engineer.email?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
-    engineer.skills.some(skill => skill?.toLowerCase().includes(searchTerm?.toLowerCase()))
+  const filteredEngineers = engineers.filter(
+    (engineer) =>
+      engineer.name?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+      engineer.email?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+      engineer.skills.some((skill) =>
+        skill?.toLowerCase().includes(searchTerm?.toLowerCase())
+      )
   );
 
   const getExperienceBadgeClass = (level: string) => {
     switch (level) {
-      case 'Junior':
-        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
-      case 'Mid':
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300';
-      case 'Senior':
-        return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300';
-      case 'Lead':
-        return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
+      case "Junior":
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+      case "Mid":
+        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
+      case "Senior":
+        return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300";
+      case "Lead":
+        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
       default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300';
+        return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300";
     }
   };
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        <Loader2 className="w-10 h-10 animate-spin text-primary" />
       </div>
     );
   }
@@ -110,7 +114,11 @@ const Engineers: React.FC = () => {
                     </CardDescription>
                   </div>
                 </div>
-                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getExperienceBadgeClass(engineer.experience_level)}`}>
+                <span
+                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getExperienceBadgeClass(
+                    engineer.experience_level
+                  )}`}
+                >
                   {engineer.experience_level}
                 </span>
               </div>
@@ -121,17 +129,17 @@ const Engineers: React.FC = () => {
                 <span>Department: {engineer.department}</span>
               </div>
               <div>
-              <div className="flex items-center gap-2 mb-1 text-sm text-muted-foreground">
-                <Clock className="w-4 h-4" />
-                <span>Capacity</span>
+                <div className="flex items-center gap-2 mb-1 text-sm text-muted-foreground">
+                  <Clock className="w-4 h-4" />
+                  <span>Capacity</span>
+                </div>
+                <div className="mt-2">
+                  <Progress value={engineer.capacity_hours} />
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    {`${engineer.capacity_hours}%`}
+                  </p>
+                </div>
               </div>
-              <div className='mt-2'>
-                <Progress value={engineer.capacity_hours} />
-                <p className="mt-2 text-xs text-muted-foreground">
-                  {`${engineer.capacity_hours}%`}
-                </p>
-              </div>
-            </div>
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <Award className="w-4 h-4" />
@@ -156,11 +164,13 @@ const Engineers: React.FC = () => {
       {filteredEngineers.length === 0 && (
         <div className="text-center py-12">
           <User className="mx-auto h-12 w-12 text-muted-foreground" />
-          <h3 className="mt-2 text-sm font-medium text-foreground">No engineers found</h3>
+          <h3 className="mt-2 text-sm font-medium text-foreground">
+            No engineers found
+          </h3>
           <p className="mt-1 text-sm text-muted-foreground">
             {searchTerm
-              ? 'Try adjusting your search criteria.'
-              : 'Get started by adding your first engineer.'}
+              ? "Try adjusting your search criteria."
+              : "Get started by adding your first engineer."}
           </p>
         </div>
       )}

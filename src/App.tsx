@@ -1,20 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './components/Login';
-import Dashboard from './components/Dashboard';
-import Engineers from './components/Engineers';
-import Projects from './components/Projects';
-import Assignments from './components/Assignments';
-import Layout from './components/Layout';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import React, { useState, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Login from "./components/Login";
+import Dashboard from "./components/Dashboard";
+import Engineers from "./components/Engineers";
+import Projects from "./components/Projects";
+import Assignments from "./components/Assignments";
+import Layout from "./components/Layout";
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import { Loader2 } from "lucide-react";
 
 function AppContent() {
   const { user, loading } = useAuth();
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen bg-accent flex items-center justify-center">
+        <Loader2 className="w-10 h-10 animate-spin text-primary" />
       </div>
     );
   }
@@ -22,7 +28,10 @@ function AppContent() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={!user ? <Login /> : <Navigate to="/dashboard" />} />
+        <Route
+          path="/login"
+          element={!user ? <Login /> : <Navigate to="/dashboard" />}
+        />
         <Route
           path="/*"
           element={
