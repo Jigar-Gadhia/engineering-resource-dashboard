@@ -143,8 +143,8 @@ async function seed() {
     // Seed Assignments
     await Assignment.insertMany([
       {
-        engineerId: engineers[0]._id,
-        projectId: projects[0]._id,
+        engineerId: engineers[0]?._id,
+        projectId: projects[0]?._id,
         allocationPercentage: 60,
         startDate: new Date("2024-07-01"),
         endDate: new Date("2024-09-30"),
@@ -158,8 +158,8 @@ async function seed() {
         },
       },
       {
-        engineerId: engineers[1]._id,
-        projectId: projects[1]._id,
+        engineerId: engineers[1]?._id,
+        projectId: projects[1]?._id,
         allocationPercentage: 50,
         startDate: new Date("2024-06-01"),
         endDate: new Date("2024-12-31"),
@@ -173,8 +173,8 @@ async function seed() {
         },
       },
       {
-        engineerId: engineers[2]._id,
-        projectId: projects[2]._id,
+        engineerId: engineers[2]?._id,
+        projectId: projects[2]?._id,
         allocationPercentage: 80,
         startDate: new Date("2024-08-01"),
         endDate: new Date("2024-11-30"),
@@ -184,8 +184,8 @@ async function seed() {
         feedback: {},
       },
       {
-        engineerId: engineers[0]._id,
-        projectId: projects[2]._id,
+        engineerId: engineers[0]?._id,
+        projectId: projects[2]?._id,
         allocationPercentage: 40,
         startDate: new Date("2024-08-01"),
         endDate: new Date("2024-11-30"),

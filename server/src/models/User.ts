@@ -15,10 +15,17 @@ const PerformanceSchema = new mongoose.Schema(
 );
 
 const UserSchema = new mongoose.Schema({
-  name: String,
-  email: { type: String, unique: true },
-  password: String,
-  role: { type: String, enum: ["engineer", "manager"], default: "engineer" },
+  name: { type: String, required: false, default: "user" },
+  email: { type: String, unique: true, required: true },
+  password: { type: String, required: true },
+  role: {
+    type: String,
+    enum: ["engineer", "manager"],
+    default: "engineer",
+    required: true,
+  },
+
+  // Optional fields
   skills: [String],
   seniority: { type: String, enum: ["junior", "mid", "senior"] },
   maxCapacity: Number,
