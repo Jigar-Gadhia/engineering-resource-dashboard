@@ -41,12 +41,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const userInfo = localStorage.getItem("user");
   const jsonUser = userInfo ? JSON.parse(userInfo) : null;
-  const [user, setUser] = useState<User | null>({
-    id: jsonUser?.id,
-    email: jsonUser?.email,
-    name: jsonUser?.name,
-    role: jsonUser?.role,
-  });
+  const [user, setUser] = useState<User | null>(
+    userInfo
+      ? {
+          id: jsonUser.id,
+          email: jsonUser.email,
+          name: jsonUser.name,
+          role: jsonUser.role,
+        }
+      : null
+  );
 
   const signup = async (
     email: string,
@@ -95,7 +99,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
+    localStorage.clear();
     setUser(null);
   };
 
