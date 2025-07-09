@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { Eye, EyeOff, LogIn, UserPlus, Users } from "lucide-react";
+import { Eye, EyeOff, Loader2, LogIn, UserPlus, Users } from "lucide-react";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "../components/ui/tabs";
@@ -214,7 +214,10 @@ const Login: React.FC = () => {
 
             <Button type="submit" disabled={loading} className="w-full">
               {loading ? (
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                <Loader2
+                  color="black"
+                  className="w-10 h-10 animate-spin text-primary"
+                />
               ) : mode === "login" ? (
                 <>
                   <LogIn className="w-4 h-4 mr-2" /> Sign In
