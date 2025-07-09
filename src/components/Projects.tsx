@@ -36,7 +36,8 @@ import {
   SelectItem,
   SelectValue,
 } from "../components/ui/select";
-import { apiUrl } from "../lib/utils";
+import { apiUrl, projectUrl } from "../lib/utils";
+import api from "../lib/api";
 
 interface Project {
   id: string;
@@ -71,7 +72,7 @@ const Projects: React.FC = () => {
 
   const fetchProjects = async () => {
     try {
-      const res = await axios.get(`${apiUrl}/projects`);
+      const res = await api.get(projectUrl);
       setProjects(res.data);
     } catch (err) {
       console.error("Fetch error:", err);

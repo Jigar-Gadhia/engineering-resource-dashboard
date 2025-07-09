@@ -10,7 +10,8 @@ import {
 } from "../components/ui/card";
 import { Input } from "../components/ui/input";
 import { Progress } from "../components/ui/progress";
-import { apiUrl } from "../lib/utils";
+import { apiUrl, engineerUrl } from "../lib/utils";
+import api from "../lib/api";
 
 interface Engineer {
   id: string;
@@ -34,7 +35,7 @@ const Engineers: React.FC = () => {
 
   const fetchEngineers = async () => {
     try {
-      const response = await axios.get(`${apiUrl}/engineers`);
+      const response = await api.get(engineerUrl);
       setEngineers(response.data);
     } catch (error) {
       console.error("Error fetching engineers:", error);

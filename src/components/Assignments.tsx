@@ -35,7 +35,8 @@ import {
   Plus,
   Loader2,
 } from "lucide-react";
-import { apiUrl } from "../lib/utils";
+import { apiUrl, assignmentUrl, engineerUrl, projectUrl } from "../lib/utils";
+import api from "../lib/api";
 
 interface Assignment {
   id: string;
@@ -83,9 +84,9 @@ const Assignments: React.FC = () => {
   const fetchData = async () => {
     try {
       const [assignmentsRes, engineersRes, projectsRes] = await Promise.all([
-        axios.get(`${apiUrl}/assignments`),
-        axios.get(`${apiUrl}/engineers`),
-        axios.get(`${apiUrl}/projects`),
+        api.get(assignmentUrl),
+        api.get(engineerUrl),
+        api.get(projectUrl),
       ]);
       setAssignments(assignmentsRes.data);
       setEngineers(engineersRes.data);
@@ -100,7 +101,7 @@ const Assignments: React.FC = () => {
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post(`${apiUrl}/assignments`, newAssignment);
+      await api.post(assignmentUrl, newAssignment);
       fetchData();
       setShowDialog(false);
       setNewAssignment({

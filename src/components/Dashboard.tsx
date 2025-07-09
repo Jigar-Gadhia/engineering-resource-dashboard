@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import {
   Users,
   FolderKanban,
@@ -10,7 +9,8 @@ import {
   Loader2,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import { apiUrl } from "../lib/utils";
+import { dashboardUrl } from "../lib/utils";
+import api from "../lib/api";
 
 interface DashboardStats {
   totalEngineers: number;
@@ -35,7 +35,7 @@ const Dashboard: React.FC = () => {
 
   const fetchDashboardData = async () => {
     try {
-      const response = await axios.get(`${apiUrl}/analytics/dashboard`);
+      const response = await api.get(dashboardUrl);
       setStats(response.data);
     } catch (error) {
       console.error("Error fetching dashboard data:", error);

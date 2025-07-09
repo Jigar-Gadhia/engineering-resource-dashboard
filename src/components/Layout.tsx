@@ -1,6 +1,6 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import React from "react";
+import { NavLink, Outlet } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import {
   LayoutDashboard,
   Users,
@@ -8,13 +8,9 @@ import {
   ClipboardList,
   LogOut,
   Menu,
-} from 'lucide-react';
+} from "lucide-react";
 
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from '../components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger } from "../components/ui/sheet";
 
 import {
   AlertDialog,
@@ -26,22 +22,18 @@ import {
   AlertDialogDescription,
   AlertDialogCancel,
   AlertDialogAction,
-} from '../components/ui/alert-dialog';
+} from "../components/ui/alert-dialog";
 
-import { Button } from '../components/ui/button';
+import { Button } from "../components/ui/button";
 
-interface LayoutProps {
-  children: React.ReactNode;
-}
-
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout = () => {
   const { user, logout } = useAuth();
 
   const navigation = [
-    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-    { name: 'Engineers', href: '/engineers', icon: Users },
-    { name: 'Projects', href: '/projects', icon: FolderKanban },
-    { name: 'Assignments', href: '/assignments', icon: ClipboardList },
+    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+    { name: "Engineers", href: "/engineers", icon: Users },
+    { name: "Projects", href: "/projects", icon: FolderKanban },
+    { name: "Assignments", href: "/assignments", icon: ClipboardList },
   ];
 
   return (
@@ -54,7 +46,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <Menu className="h-6 w-6" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-64 bg-background text-foreground">
+          <SheetContent
+            side="left"
+            className="w-64 bg-background text-foreground"
+          >
             <div className="mb-6 font-semibold text-lg">Menu</div>
             <nav className="space-y-2">
               {navigation.map(({ name, href, icon: Icon }) => (
@@ -63,9 +58,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   to={href}
                   className={({ isActive }) =>
                     `group flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors
-                    ${isActive
-                      ? 'bg-accent text-accent-foreground'
-                      : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`
+                    ${
+                      isActive
+                        ? "bg-accent text-accent-foreground"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    }`
                   }
                 >
                   <Icon className="h-5 w-5 transition-transform group-hover:scale-110" />
@@ -91,10 +88,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               key={name}
               to={href}
               className={({ isActive }) =>
-              `group flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors
-                  ${isActive
-                    ? 'bg-accent text-accent-foreground'
-                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`
+                `group flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors
+                  ${
+                    isActive
+                      ? "bg-accent text-accent-foreground"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  }`
               }
             >
               <Icon className="h-5 w-5 transition-transform group-hover:scale-110" />
@@ -130,7 +129,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Are you sure you want to logout?</AlertDialogTitle>
+                  <AlertDialogTitle>
+                    Are you sure you want to logout?
+                  </AlertDialogTitle>
                   <AlertDialogDescription>
                     This will end your current session.
                   </AlertDialogDescription>
@@ -145,7 +146,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         </div>
 
         {/* Page content */}
-        <main className="p-4 sm:p-6 lg:p-8">{children}</main>
+        <main className="p-4 sm:p-6 lg:p-8">
+          <Outlet />
+        </main>
       </div>
     </div>
   );

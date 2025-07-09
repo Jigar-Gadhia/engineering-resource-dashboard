@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
-import { apiUrl } from "../lib/utils";
+import { apiUrl, signupUrl } from "../lib/utils";
+import api from "../lib/api";
+import { profileUrl } from "../lib/utils";
 
 interface User {
   id: string;
@@ -22,7 +24,6 @@ interface AuthContextType {
     maxCapacity: string,
     department: string
   ) => Promise<void>;
-  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -38,30 +39,14 @@ export const useAuth = () => {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      fetchProfile();
-    } else {
-      setLoading(false);
-    }
-  }, []);
-
-  const fetchProfile = async () => {
-    try {
-      const response = await axios.get(`${apiUrl}/users/profile`);
-      setUser(response.data);
-    } catch (error) {
-      localStorage.removeItem("token");
-      delete axios.defaults.headers.common["Authorization"];
-    } finally {
-      setLoading(false);
-    }
-  };
+  const userInfo = localStorage.getItem("user");
+  const jsonUser = userInfo ? JSON.parse(userInfo) : null;
+  const [user, setUser] = useState<User | null>({
+    id: jsonUser?.id,
+    email: jsonUser?.email,
+    name: jsonUser?.name,
+    role: jsonUser?.role,
+  });
 
   const signup = async (
     email: string,
@@ -72,8 +57,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     maxCapacity: string,
     department: string
   ) => {
-    const response = await axios
-      .post(`${apiUrl}/auth/signup`, {
+    const response = await api
+      .post(signupUrl, {
         email,
         password,
         role: role?.toLowerCase(),
@@ -87,7 +72,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const { token, user: userData } = response?.data;
 
     localStorage.setItem("token", token);
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     setUser(userData);
   };
 
@@ -106,18 +90,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const { token, user: userData } = response.data;
     localStorage.setItem("token", token);
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    localStorage.setItem("user", JSON.stringify(userData));
     setUser(userData);
   };
 
   const logout = () => {
     localStorage.removeItem("token");
-    delete axios.defaults.headers.common["Authorization"];
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, signup, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
+  Outlet,
 } from "react-router-dom";
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
@@ -14,42 +15,38 @@ import Layout from "./components/Layout";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { Loader2 } from "lucide-react";
 
-function AppContent() {
-  const { user, loading } = useAuth();
+function ProtectedRoute() {
+  const { user } = useAuth();
+  return user ? <Outlet /> : <Navigate to="/login" replace />;
+}
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-accent flex items-center justify-center">
-        <Loader2 className="w-10 h-10 animate-spin text-primary" />
-      </div>
-    );
-  }
+function AppContent() {
+  const { user } = useAuth();
+
+  console.log("user", user);
 
   return (
     <Router>
       <Routes>
+        {/* Public Route */}
         <Route
           path="/login"
-          element={!user ? <Login /> : <Navigate to="/dashboard" />}
+          element={!user ? <Login /> : <Navigate to="/dashboard" replace />}
         />
-        <Route
-          path="/*"
-          element={
-            user ? (
-              <Layout>
-                <Routes>
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/engineers" element={<Engineers />} />
-                  <Route path="/projects" element={<Projects />} />
-                  <Route path="/assignments" element={<Assignments />} />
-                  <Route path="/" element={<Navigate to="/dashboard" />} />
-                </Routes>
-              </Layout>
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
+
+        {/* Protected Routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route element={<Layout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/engineers" element={<Engineers />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/assignments" element={<Assignments />} />
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          </Route>
+        </Route>
+
+        {/* Catch-all redirect */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );
