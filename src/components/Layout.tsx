@@ -10,7 +10,12 @@ import {
   Menu,
 } from "lucide-react";
 
-import { Sheet, SheetContent, SheetTrigger } from "../components/ui/sheet";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTrigger,
+} from "../components/ui/sheet";
 
 import {
   AlertDialog,
@@ -53,21 +58,23 @@ const Layout = () => {
             <div className="mb-6 font-semibold text-lg">Menu</div>
             <nav className="space-y-2">
               {navigation.map(({ name, href, icon: Icon }) => (
-                <NavLink
-                  key={name}
-                  to={href}
-                  className={({ isActive }) =>
-                    `group flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors
+                <SheetClose asChild>
+                  <NavLink
+                    key={name}
+                    to={href}
+                    className={({ isActive }) =>
+                      `group flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors
                     ${
                       isActive
                         ? "bg-accent text-accent-foreground"
                         : "text-muted-foreground hover:bg-muted hover:text-foreground"
                     }`
-                  }
-                >
-                  <Icon className="h-5 w-5 transition-transform group-hover:scale-110" />
-                  {name}
-                </NavLink>
+                    }
+                  >
+                    <Icon className="h-5 w-5 transition-transform group-hover:scale-110" />
+                    {name}
+                  </NavLink>
+                </SheetClose>
               ))}
             </nav>
           </SheetContent>
